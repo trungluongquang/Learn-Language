@@ -1,21 +1,21 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import { createDrawerNavigator } from 'react-navigation-drawer';
+import HomeScreen from './src/screens/HomeScreen';
+import TopicScreen from './src/screens/TopicScreen';
+import ExerciseList from './src/screens/ExerciseList';
+import ExerciseScreen from './src/screens/ExerciseScreen';
+import ResultScreen from './src/screens/ResultScreen';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
+const stackNavigator = createStackNavigator({
+  Home: HomeScreen,
+  Topic: TopicScreen,
+  ExerciseList: ExerciseList,
+  exerciseFlow: createDrawerNavigator({
+    Exercise: ExerciseScreen,
+    Result: ResultScreen
+  }),
 });
+
+export default createAppContainer(stackNavigator);
