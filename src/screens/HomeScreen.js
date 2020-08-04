@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native';
+import Context from '../context/GetDataContext';
 
 /**
   * TODO
@@ -8,22 +9,17 @@ import { View, StyleSheet, Text, FlatList, TouchableOpacity } from 'react-native
   * rate us, share button
 */
 const HomeScreen = ({ navigation }) => {
-  const [levels, setLevels] = useState([]);
-
-  // TODO move this to a context so that we load data only once!
-  useEffect(() => {
-    setLevels(require('../../data/levels.json')["data"]);
-  }, []);
+  const { levels } = useContext(Context);
 
   return (
-    <View>
+    <>
       <Text>HomeScreen</Text>
       <FlatList
-        data={levels}
+        data={ levels }
         renderItem={({ item }) => {
           return (
             <TouchableOpacity
-              onPress={() => navigation.navigate('Topic', { id: item.id })}
+              onPress={() => navigation.navigate('Topic', { level: item.title })}
             >
               <View style={styles.button}>
                 <Text>{item.title}</Text>
@@ -31,11 +27,11 @@ const HomeScreen = ({ navigation }) => {
             </TouchableOpacity>
           )
         }}
-        keyExtractor={level => level.id}
+        keyExtractor={level => level.title}
       />
-    </View>
-  )
-}
+    </>
+  );
+};
 
 // TODO adjust color / design
 const styles = StyleSheet.create({

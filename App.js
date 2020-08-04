@@ -7,6 +7,7 @@ import TopicScreen from './src/screens/TopicScreen';
 import ExerciseList from './src/screens/ExerciseList';
 import ExerciseScreen from './src/screens/ExerciseScreen';
 import ResultScreen from './src/screens/ResultScreen';
+import { Provider } from './src/context/GetDataContext';
 
 const stackNavigator = createStackNavigator({
   Home: HomeScreen,
@@ -18,4 +19,12 @@ const stackNavigator = createStackNavigator({
   }),
 });
 
-export default createAppContainer(stackNavigator);
+const App = createAppContainer(stackNavigator);
+
+export default () => {
+  return (
+    <Provider>
+      <App />
+    </Provider>
+  );
+};
