@@ -4,7 +4,7 @@ import Context from '../context/GetDataContext';
 
 const ExerciseList = ({ navigation }) => {
   const { exercisesList } = useContext(Context);
-
+  
   return (
     <>
       <Text>ExerciseList {navigation.getParam('level')} - {navigation.getParam('topic')}</Text>
