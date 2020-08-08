@@ -1,17 +1,14 @@
-import React, { useReducer } from 'react';
-
-const Context = React.createContext();
+import createDataContext from './createDataContext';
 
 const answeredQuestionReducer = (state, action) => {
+  // TODO read the state again!
   switch(action.type){
     case 'get_answered_question':
       return state;
     case 'add_answered_question':
-    // TODO work here
-      //return [...state, { action.payload }];
-      return [...state, { title:"zzzz" }];
+      return {...state, answeredQuestions: [...state.answeredQuestions, action.payload] };
     case 'clear_answered_question':
-      return [];
+      return { ...state, answeredQuestions: [] };
     default:
       return state;
   }
@@ -22,31 +19,26 @@ const answeredQuestionReducer = (state, action) => {
   * function 2: clear the array made by function 1 when we perform the action that removes this context
 */
 
-export const AnsweredQuestionProvider = ({ children }) => {
-  const [answeredQuestions, dispatch] = useReducer(answeredQuestionReducer, []);
-  const getAnsweredQuestion = () => {
-    return () => {
-      dispatch({ type: get_answered_question });
-    };
-  };
-
-  const addAnsweredQuestion = () => {
-    return (question) => {
-      dispatch({ type: 'add_answered_question', payload: question });
-    };
-  };
-
-  const clearAnsweredQuestion = () => {
-    return () => {
-      dispatch({ type: 'clear_answered_question' });
-    };
-  };
-
-  return (
-    <Context.Provider value={{ addAnsweredQuestion, getAnsweredQuestion }}>
-      {children}
-    </Context.Provider>
-  );
+/**
+ * get the list of questions that we have already answered
+ */
+const getAnsweredQuestion = dispatch => () => {
+  dispatch({ type: 'get_answered_question' });
 };
 
-export default Context;
+/**
+ * add an answered question to the list
+ */
+const addAnsweredQuestion = dispatch => (question) => {
+  dispatch({ type: 'add_answered_question', payload: question });
+};
+
+const clearAnsweredQuestion = dispatch => () => {
+  dispatch({ type: 'clear_answered_question' });
+};
+
+export const { Context, Provider } = createDataContext(
+  answeredQuestionReducer,
+  { getAnsweredQuestion, addAnsweredQuestion, clearAnsweredQuestion},
+  { answeredQuestions: []}
+);

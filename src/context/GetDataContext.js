@@ -24,7 +24,6 @@ export const Provider = ({ children }) => {
     }
   }
 
-
   return (
     <Context.Provider value ={{ data, levels, topics, exercisesList }}>{children}</Context.Provider>
   );
