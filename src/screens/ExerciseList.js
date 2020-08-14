@@ -1,9 +1,11 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { View, StyleSheet, Text, Button, FlatList, TouchableOpacity } from 'react-native';
 import Context from '../context/GetDataContext';
+import { Context as AnsweredQuestionContext } from '../context/AnsweredQuestionContext';
 
 const ExerciseList = ({ navigation }) => {
   const { exercisesList } = useContext(Context);
+  const { clearAnsweredQuestion } = useContext(AnsweredQuestionContext);
 
   return (
     <>
@@ -14,12 +16,15 @@ const ExerciseList = ({ navigation }) => {
         renderItem={({ item }) => {
             return (
               <TouchableOpacity
-                onPress={() => navigation.navigate('exerciseFlow', {
-                                                      exercise: item.title,
-                                                      level: navigation.getParam('level'),
-                                                      topic: navigation.getParam('topic')
-                                                    }
-                                                  )}
+                onPress={() => {
+                  clearAnsweredQuestion();
+                  navigation.navigate('exerciseFlow', {
+                                                        exercise: item.title,
+                                                        level: navigation.getParam('level'),
+                                                        topic: navigation.getParam('topic')
+                                                      }
+                                                    )}
+                }
               >
                 <View style={styles.button}>
                   <Text>{item.title}</Text>
