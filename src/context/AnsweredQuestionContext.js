@@ -30,5 +30,5 @@ const clearAnsweredQuestion = dispatch => () => {
 export const { Context, Provider } = createDataContext(
   answeredQuestionReducer,
   { addAnsweredQuestion, clearAnsweredQuestion},
-  { answeredQuestions: []}
+  { answeredQuestions: [], correctAnswer: 0}
 );
